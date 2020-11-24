@@ -1,0 +1,132 @@
+---
+title: "This is the Vignette for TING-package"
+author: "Ting Wang"
+data: "Nov 19, 2020"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{This is the Vignette for TING-package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(TING)
+```
+<br/>
+<br />
+<br />
+<font size="6">Introduction (Background/Motivation)</font>  
+<br/>
+<font size="3">
+##This vignette shows how to use TING package in R. The TING package is useful when we analyze correlations between independent variables and dependent variables. This can help us generate jitter plot to analyze the correlations, and do pairwise partial correaltions and get the p value for each correlation. Moreover, it can filter independent variables that have significant correlations with dependent variables. This package can also generate scatter plot with regression line about each correlation. Besides, pickAGE() function in this package can generate a shiny APP. The following are brief introduction and usage about four functions in TING package. 
+<br/>
+<br/>
+<br/>
+<font size="6">Package Content & Example Demonstrations</font>    
+<br/>
+<font size="5">Read the data set for example demonstration.</font>
+
+```{r}
+mydata <- read.table("C:/Users/twa3/Desktop/R/Myopia-study-classification-logistic-regression-R-master/dataset/myopia.csv", header=TRUE,
+   sep=",")
+```
+
+The following is the preview of mydata.
+![myopia data](/Users/twa3/Desktop/myopia.png){width=70%}
+<br/>
+This dataset include 17 independent variables -- ID, STUDYYEAR, AGE, GENDER, SPHEQ, AL, ACD, LT, VCD, SPORTHR, READHR, COMPHR, STUDYHR, TVHR, DIOPTERHR, MOMMY, DADMY, and one dependent variable -- "MYOPIC".
+<br/>
+<br/>
+
+<font size="3">I am going to use myopia dataset to show functions in TING package.</font>  
+<br/>
+<font size="5">Function 1: TING_graph()</font> 
+<br/>
+
+TING-graph can help us build jitter plot to show the association between independent variable and dependent variable in the dataset. 
+When we have a dataset that includes multiple independent variables and dependent variables, it is complex for us to write long coding to generate jitter plot for each independent variable and dependent variable. TING_graph is a function that can figure out this problem. Through using this function, we can add title, subtitle and caption for plot, which makes it easier for us to build jitter plot that we want. Before using this function, please make sure to install package "ggplot2".
+
+The usage of Ting_graph: typing into "the name of dataset", "one independent variable", "one dependent variable", "title of plot", "subtitle of plot", and "caption of plot" orderly.
+
+Example using TING_graph
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+Ting_graph(mydata, AL, MYOPIC, "Use AL to estimate myopia", "R program", "Produced by Ting Wang")
+```
+
+<font size="5">Function 2: Ting_correlation()</font>
+<br/> 
+
+Ting_correlation is a useful function to analyze the correlation between individual independent variable and individual dependent variable. Ting_correlation can do the pairwise partial correlation analysis, and the output include p value of each correlation. Using this function can make it easier to get all correlations between independent variables and dependent variable. Before using this function, please make sure to install the package "dplyr".
+
+The usage of Ting_correlation: typing into "the name of dataset", "one dependent variable" orderly.
+
+Example using Ting_correlation
+
+```{r}
+library(dplyr)
+```
+
+```{r}
+Ting_correlation(mydata, "MYOPIC")
+```
+
+<br/> 
+<font size="5">Function 3: Ting_selection()</font>
+<br/> 
+
+Ting_selection is used to filter significant correlations between each independent variable and dependent variable. This filtration is based on p value from pairwise partial correlation, and the judgment is that if p value is smaller than -0.05, or larger than 0.05, which means these two variables have significant correlation. Before using this function, please make sure to input the correlation data that includes p value of each pairwise correlation. You can name your correlation data, and then input that name into this function.
+
+The usage of Ting_selection: typing into "the name of dataset that includes the p value of pairwise partial correlations".
+
+Example using Ting_selection
+
+```{r}
+new <- Ting_correlation(mydata, "MYOPIC")
+```
+
+```{r}
+Ting_selection(new)
+```
+
+<br/> 
+<font size="5">Function 4: Ting_regression()</font>
+<br/> 
+
+Ting_regression is a useful function that can build scatter plot with regression line for each independent variable and each dependent variable. It is specially useful when we analyze multiple variables dataset. Besides, using this function, we can add specific title, x label, y label and caption for the plot. 
+
+The usage of Ting_regression: typing into "the name of dataset", "one independent variable", "one dependent variable", "x label (the name of independent variable)", "y label(the name of dependent variable)", "title of the plot", and "caption of the plot" orderly.
+
+Example using Ting_regression
+
+```{r}
+Ting_regression(mydata, ACD, MYOPIC, "ACD", "MYOPIC", "Regression ACD versus MYOPIC", "Produced by Ting Wang")
+```
+
+<br/> 
+<font size="5">Function 5: pickAGE()</font>
+<br/>
+
+pickAGE() is a function that can produce shiny APP based on mydata. The output from pickAGE() is a shiny APP, in this shiny APP, we can select different AGE groups, and the line plot can shows that the range of ACD that is correlated with the occurrence of MYOPIC. Before using this function, please make sure to install the package --- "ggplot2", "shiny" and "dplyr".
+
+```{r}
+library(ggplot2)
+library(shiny)
+library(dplyr)
+```
+
+```{r}
+pickAGE()
+```
+<br />
+<br />
+<br />
+<font size="6">Future Work and Plans</font>     
+<br />
+
+(1) Develop functions in this package that can specially build plot and do analyses for categorical variables;
+(2) Continue developing more data analyses functions in this package that can be used to analyze diverse datasets (not just do pairwise correlations, also can do t-test, ANOVA or other data analyses).

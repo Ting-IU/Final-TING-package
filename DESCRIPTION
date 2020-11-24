@@ -1,0 +1,17 @@
+Package: TING
+Type: Package
+Title: Analyze correlation in R
+Version: 0.1.0
+Author: Ting Wang
+Maintainer: Ting Wang <tingw1133@gmail.com>
+Description: This package is used to analyze correlations between independent 
+    variables and dependent variables, and filter significant correlations, and 
+    build jitter plot and regression plot.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
